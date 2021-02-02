@@ -4,9 +4,18 @@ class Tick {
   constructor() {
     this._tick = false;
     this._time = 1000;
+    this._timeOutId = null;
     this._condition = () => true;
   }
 
+  get time(long = false) {
+    return ms(this._time, {long});
+  }
+
+  get mTime() {
+    return this._time;
+  }
+  
   every(time) {
     this._time = ms(time);
     return this;
@@ -23,6 +32,7 @@ class Tick {
   }
 
   stop() {
+    clearTimeout(this._timeOutId);
     this._tick = false;
   }
 
@@ -35,7 +45,7 @@ class Tick {
           throw new TypeError('Callback must be a function');
         }
 
-        setTimeout(() => this.tick(callback), this._time);
+        this._timeOutId = setTimeout(() => this.tick(callback), this._time);
       }
     }
   }
