@@ -8,12 +8,16 @@ class Tick {
     this._condition = () => true;
   }
 
-  get time(long = false) {
-    return ms(this._time, {long});
+  get time() {
+    return ms(this._time);
   }
 
   get mTime() {
     return this._time;
+  }
+
+  get lTime() {
+    return ms(this._time, {long: true});
   }
   
   every(time) {
