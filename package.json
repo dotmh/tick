@@ -1,6 +1,6 @@
 {
   "name": "@dotmh/tick",
-  "version": "1.0.0",
+  "version": "1.0.0-ts",
   "description": "A utility library for making polling loops",
   "main": "index.js",
   "scripts": {
@@ -23,5 +23,10 @@
   "homepage": "https://github.com/dotmh/tick#readme",
   "dependencies": {
     "ms": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/ms": "^0.7.31",
+    "@types/node": "^15.3.1",
+    "typescript": "^4.2.4"
   }
 }

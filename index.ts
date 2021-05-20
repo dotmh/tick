@@ -1,46 +1,55 @@
+import Timeout = NodeJS.Timeout;
+
 const ms = require('ms');
 
-class Tick {
+export class Tick {
+
+  private _tick: boolean;
+  private _time: number;
+  private _timeOutId?: Timeout;
+  private _condition: ()=> boolean;
+
   constructor() {
     this._tick = false;
     this._time = 1000;
-    this._timeOutId = null;
     this._condition = () => true;
   }
 
-  get time() {
+  get time(): string {
     return ms(this._time);
   }
 
-  get mTime() {
+  get mTime(): number | null {
     return this._time;
   }
 
-  get lTime() {
+  get lTime(): string {
     return ms(this._time, {long: true});
   }
   
-  every(time) {
-    this._time = ms(time);
+  every(time: number): Tick {
+    this._time = +ms(time);
     return this;
   }
 
-  when(callback) {
-    this._condition = callback;
+  when(condition: () => boolean): Tick {
+    this._condition = condition;
     return this;
   }
 
-  start(callback) {
+  start(callback: () => any): void{
     this._tick = true;
     this.tick(callback);
   }
 
-  stop() {
-    clearTimeout(this._timeOutId);
+  stop(): void {
+    if (this._timeOutId) {
+      clearTimeout(this._timeOutId);
+    }
     this._tick = false;
   }
 
-  tick(callback) {
+  private tick(callback?: () => any) {
     if (this._tick) {
       if (this._condition !== null && this._condition()) {
         if (typeof callback === 'function') {
@@ -54,5 +63,3 @@ class Tick {
     }
   }
 }
-
-module.exports = Tick;
