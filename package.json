@@ -1,9 +1,11 @@
 {
   "name": "@dotmh/tick",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A utility library for making polling loops",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,6 +17,12 @@
     "Loop",
     "Timing"
   ],
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "author": "Martin Haynes <oss@dotmh.io>",
   "license": "Apache-2.0",
   "bugs": {
@@ -22,6 +30,10 @@
   },
   "homepage": "https://github.com/dotmh/tick#readme",
   "dependencies": {
-    "ms": "^2.1.2"
+    "ms": "^2.1.3"
+  },
+  "devDependencies": {
+    "@types/ms": "^0.7.31",
+    "typescript": "^4.9.4"
   }
 }
