@@ -1,19 +1,14 @@
-import Timeout = NodeJS.Timeout;
+import ms from 'ms';
 
-const ms = require('ms');
+export type Condition = () => boolean;
+export type Callback = () => void;
 
 export class Tick {
 
-  private _tick: boolean;
-  private _time: number;
-  private _timeOutId?: Timeout;
-  private _condition: ()=> boolean;
-
-  constructor() {
-    this._tick = false;
-    this._time = 1000;
-    this._condition = () => true;
-  }
+  private _tick: boolean = false;
+  private _time: number = 1000;
+  private _timeOutId?: number;
+  private _condition: Condition = () => true;
 
   get time(): string {
     return ms(this._time);
@@ -24,20 +19,20 @@ export class Tick {
   }
 
   get lTime(): string {
-    return ms(this._time, {long: true});
+    return ms(this._time, { long: true });
   }
-  
-  every(time: number): Tick {
-    this._time = +ms(time);
+
+  every(timeString: string): Tick {
+    this._time = Number(ms(timeString));
     return this;
   }
 
-  when(condition: () => boolean): Tick {
+  when(condition: Condition): Tick {
     this._condition = condition;
     return this;
   }
 
-  start(callback: () => any): void{
+  start(callback: Callback): void {
     this._tick = true;
     this.tick(callback);
   }
@@ -49,15 +44,10 @@ export class Tick {
     this._tick = false;
   }
 
-  private tick(callback?: () => any) {
+  private tick(callback: Callback) {
     if (this._tick) {
       if (this._condition !== null && this._condition()) {
-        if (typeof callback === 'function') {
-          callback();
-        } else {
-          throw new TypeError('Callback must be a function');
-        }
-
+        callback();
         this._timeOutId = setTimeout(() => this.tick(callback), this._time);
       }
     }
