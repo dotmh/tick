@@ -3,6 +3,7 @@
   "version": "1.0.1-ts",
   "description": "A utility library for making polling loops",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
